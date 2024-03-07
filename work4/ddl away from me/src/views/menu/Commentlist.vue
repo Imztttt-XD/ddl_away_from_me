@@ -74,9 +74,6 @@ loadMainComment()
         width: 650px;
     }
 
-    
-
-
     :deep(.el-textarea__inner) {
         width: 650px;
         font-size: 18px;

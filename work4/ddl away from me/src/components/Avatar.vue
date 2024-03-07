@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import { ref  } from 'vue'
-import { useUserStore } from '@/stores/user.ts'
 
 const props = defineProps({
     size:{
@@ -15,8 +14,6 @@ const props = defineProps({
         type:String
     }
 })
-const userStore = useUserStore()
-const userInfo = userStore.user
 const img = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 import { getImgSevrvice } from '@/apis/user.js'
 const getAvatar = async () => {
@@ -27,9 +24,7 @@ const getAvatar = async () => {
         return false
     }
 }
-if(userInfo.avatarUrl!=null){
-    getAvatar()
-}
+getAvatar()
 </script>
 
 <style scoped>

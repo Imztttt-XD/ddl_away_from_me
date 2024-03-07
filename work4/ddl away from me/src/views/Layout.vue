@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { onMounted} from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-import { userInfoSevrvice} from '@/apis/user.js'
+import { userInfoSevrvice } from '@/apis/user.js'
 import { useTokenStore } from '@/stores/token.ts'
 import { useUserStore } from '@/stores/user.ts'
 import Avatar from '@/components/Avatar.vue';
@@ -11,6 +11,7 @@ import Avatar from '@/components/Avatar.vue';
 const userStore = useUserStore()
 const tokenStore = useTokenStore()
 
+//一个非常简陋的token过期处理....感觉不太合理 
 const getUser = async () => {
     try {
         let result = await userInfoSevrvice(tokenStore.token)
@@ -33,7 +34,7 @@ const Back = () => {
 
 </script>
 <template>
-    <div class="common-layout" style=" background-color: #f4f5f5">
+    <div class="header">
         <el-menu router mode="horizontal">
             <img src="../assets/Rectangle 4.png" alt="">
             <el-menu-item index="/menu" :class="{ 'choose': $route.path === '/menu' }"
@@ -44,6 +45,7 @@ const Back = () => {
                 </el-button>
             </el-menu-item>
             <el-dropdown>
+                <!-- 就是这里的头像!!!!刚登录无法正常获取 -->
                 <Avatar :size="40" :userId="userStore.user.userId" style="margin-left: 40px;"></Avatar>
                 <template #dropdown>
                     <el-dropdown-menu>
@@ -53,22 +55,23 @@ const Back = () => {
                 </template>
             </el-dropdown>
         </el-menu>
-        <div class="main">
-            <router-view></router-view>
-        </div>
+    </div>
+    <div class="content">
+        <router-view></router-view>
     </div>
 </template>
 
 
 <style lang="scss" scoped>
-.el-menu {
+.header{
+    .el-menu {
     img {
         height: 36px;
         margin: 0 40px 0 80px;
     }
+
     font-style: normal;
     font-weight: 500;
-    display: flex;
     align-items: center;
     position: fixed;
     left: 0;
@@ -90,16 +93,18 @@ const Back = () => {
         border-bottom: none;
     }
 }
-
-.user {
-    width: 200px;
 }
 
-.main {
+.content{
     margin-top: 60px;
+}
+.user {
+    width: 200px;
 }
 
 .choose {
     color: #4585FF;
 }
+
+
 </style>

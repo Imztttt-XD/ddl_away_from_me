@@ -44,7 +44,7 @@ import { useTokenStore } from '@/stores/token.ts';
 import { clickArticleService, likeArticleService, deletLikeArticleService } from '@/apis/article.js'
 import { ElMessage } from 'element-plus';
 const tokenStore = useTokenStore()
-const isLike = ref(false)
+const isLike = ref(props.data.like)
 const click = async (id) => {
     try {
         let result = await clickArticleService(id, tokenStore.token)
@@ -62,27 +62,27 @@ const likeArticle = async (id) => {
         let result = await likeArticleService(id, tokenStore.token)
         if (result.code === 1) {
             ElMessage.success("点赞成功");
-            isLike.value = true
-            props.data.favoriteNumber=result.data
+            isLike.value=result.data.like
+            props.data.favoriteNumber=result.data.likeNumber
         } else {
             return false;
         }
     } catch (err) {
-        ElMessage.error("已经点过赞就不能再点了");
+        alert("不好意思已经点过赞喽");
     }
 }
 const deleteLikeArticle = async (id) => {
     try {
         let result = await deletLikeArticleService(id, tokenStore.token)
         if (result.code === 1) {
-            isLike.value = false
             ElMessage.success("取消点赞");
-            props.data.favoriteNumber=result.data
+            props.data.favoriteNumber=result.data.likeNumber
+            isLike.value=result.data.like            
         } else {
             return false;
         }
     } catch (err) {
-        alert(err.message || "加载失败");
+        alert("不好意思已经点过赞喽");
     }
 }
 </script>

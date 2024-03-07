@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header>
-            <el-input v-model="articleModel.title" maxlength="10" placeholder="请输入文章标题" show-word-limit type="text" style="width:810px;font-size: 20px;" size="large"></el-input>
+            <el-input v-model="articleModel.title" maxlength="30" placeholder="请输入文章标题" show-word-limit type="text" style="width:810px;font-size: 20px;" size="large"></el-input>
             <el-button type="primary" style="margin-right: 10px;font-size: 20px;" size="large" @click="postArticle">发布</el-button>
         </el-header>
         <el-main>

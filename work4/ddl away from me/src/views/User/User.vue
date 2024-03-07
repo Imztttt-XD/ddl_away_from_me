@@ -23,8 +23,9 @@
                             </el-form>
                             <div class="userImg">
                                 <el-avatar :size="80" :src="img"></el-avatar>
-                                <el-upload class="avatar-uploader" action="http://47.120.41.47:8091/common/upload" :auto-upload="true"
-                                    :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" name="file"
+                                <el-upload class="avatar-uploader" action="http://47.120.41.47:8091/common/upload"
+                                    :auto-upload="true" :on-success="handleAvatarSuccess"
+                                    :before-upload="beforeAvatarUpload" name="file"
                                     :headers="{ 'token': tokenStore.token }">
                                     <el-button style="margin-top: 10px;">上传头像</el-button>
                                     <template #tip>
@@ -49,10 +50,12 @@
                         <el-form label-width="150px" style="width: 900px;margin:0 auto;" v-model="passwordChange"
                             v-if="isReset">
                             <el-form-item label="原密码">
-                                <el-input v-model="passwordChange.oldPassword" />
+                                <el-input v-model="passwordChange.oldPassword" type="password"
+                                    placeholder="请输入原密码" show-password />
                             </el-form-item>
                             <el-form-item label="新密码">
-                                <el-input v-model="passwordChange.newPassword" />
+                                <el-input v-model="passwordChange.newPassword" type="password"
+                                    placeholder="请输入新密码" show-password />
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="changePassword" size="large"
@@ -71,7 +74,7 @@ import { ArrowLeft } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 import { ref } from 'vue'
-import {  type TabsPaneContext } from 'element-plus'
+import { type TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
@@ -85,7 +88,7 @@ import { useUserStore } from '@/stores/user.ts'
 const userStore = useUserStore()
 const userInfo = userStore.user
 import type { UploadProps } from 'element-plus'
-
+// 上传头像
 const img = ref('')
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
     response,
@@ -109,7 +112,7 @@ const passwordChange = ref({
     oldPassword: '',
     newPassword: '',
 })
-
+// 修改密码
 import { ElMessage } from 'element-plus'
 import { changePasswordSevrvice, getImgSevrvice, changeNameSevrvice, postIntrSevrvice } from '@/apis/user.js'
 const changePassword = async () => {
@@ -123,7 +126,7 @@ const changePassword = async () => {
             })
         } else {
             ElMessage({
-                message: '修改失败',
+                message: '密码错误',
                 type: 'error',
             })
         }
@@ -131,6 +134,7 @@ const changePassword = async () => {
         alert(err.message || "加载失败");
     }
 }
+// 修改名字
 const changeName = async () => {
     try {
         let result = await changeNameSevrvice(username.value, tokenStore.token)
@@ -151,6 +155,7 @@ const changeName = async () => {
         alert(err.message || "加载失败");
     }
 }
+// 修改简介
 const postIntr = async () => {
     try {
         let result = await postIntrSevrvice(introduction.value, tokenStore.token)
@@ -171,7 +176,7 @@ const postIntr = async () => {
         alert(err.message || "加载失败");
     }
 }
-
+// 获取头像
 const getUserAvatar = async () => {
     try {
         let result = await getImgSevrvice(userStore.user.userId)
@@ -180,14 +185,14 @@ const getUserAvatar = async () => {
         alert(err.message || "加载失败");
     }
 }
-if(userInfo.avatarUrl !== null){
+if (userInfo.avatarUrl !== null) {
     getUserAvatar()
-}else{
+} else {
     img.value = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 }
 
 const change = () => {
-    if(username.value.trim() === '' && introduction.value.trim() === ''){
+    if (username.value.trim() === '' && introduction.value.trim() === '') {
         ElMessage.error('请先输入信息再提交')
         return false
     }

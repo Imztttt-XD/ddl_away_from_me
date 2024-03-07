@@ -43,7 +43,6 @@ import { useRouter } from 'vue-router';
 import { useTokenStore } from '@/stores/token.ts'
 import { useUserStore } from '@/stores/user.ts'
 import Avatar from '@/components/Avatar.vue';
-
 const tokenStore = useTokenStore()
 const userStore = useUserStore()
 const router = useRouter()
@@ -52,6 +51,8 @@ const orderType = ref(0)
 const isEmpty = ref(false)
 const userInfo = userStore.user
 const articleListInfo = ref({})
+
+// 根据标签获取文章
 const loadArticle = async () => {
   try {
     loading.value = true
@@ -59,7 +60,6 @@ const loadArticle = async () => {
       let result = await getUserArticleSevrvice(tokenStore.token)
       if (result.code === 1) {
         articleListInfo.value = result.data
-        isEmpty.value = false
       }else{
         isEmpty.value = true
       }
@@ -67,7 +67,6 @@ const loadArticle = async () => {
       let result = await getUserLikeSevrvice(tokenStore.token)
       if (result.code === 1) {
         articleListInfo.value = result.data
-        isEmpty.value = false
       } else{
         isEmpty.value = true
       }
@@ -78,9 +77,11 @@ const loadArticle = async () => {
   }
 }
 loadArticle()
+
 const tabClass = (type) => {
   return ['tab', orderType.value === type ? 'active' : ''];
 };
+
 const changeOrderType = (type) => {
   orderType.value = type;
   articleListInfo.value = {}

@@ -1,15 +1,21 @@
 // 导入request.js请求工具
 import service from '../utils/request'
-export const getRankingListService=()=>{
+export const getRankingListService=(token)=>{
     return service.request({
         method:"get",
-        url:'/article/ranking_list'
+        url:'/article/ranking_list',
+        headers: {
+            token: token
+        }
     })
 }
-export const getCurrentListService=()=>{
+export const getCurrentListService=(token)=>{
     return service.request({
         method:"get",
-        url:'/article/current_list'
+        url:'/article/current_list',
+        headers: {
+            token: token
+        }
     })
 }
 export const postArticleService=(articleModel,token)=>{
@@ -64,12 +70,15 @@ export const deletLikeArticleService=(id,token)=>{
     })
 }
 
-export const getArticleDetailService=(id)=>{
+export const getArticleDetailService=(id,token)=>{
     return service.request({
         method:"get",
         url:'/article/find_article_by_id',
         params:{
             id:id
+        },
+        headers: {
+            token: token
         }
     })
 }
